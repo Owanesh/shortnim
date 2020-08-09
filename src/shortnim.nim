@@ -12,14 +12,14 @@ Options:
   -h --help     Show this screen.
   -v --version  Show version.
 """
-import nre, regex
+import regex
 import strutils, sequtils
 import docopt
 import providers/[cleanuriProvider, relinkProvider]
 
 let args = docopt(doc, version = "shortnim 0.1a")
 let supported_provider = ["relink","cleanuri"]
-var url_pattern = re"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$"
+var url_pattern = re"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$" # todo: improve this regexp
 
 if args["--provider"] and ($args["--provider"] in supported_provider) and match($args["<url>"], url_pattern):
   case $args["--provider"]:
