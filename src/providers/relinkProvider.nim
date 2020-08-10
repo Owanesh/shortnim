@@ -9,4 +9,4 @@ proc relink*(url: string) =
       "url": url
   }
   let response = client.request((provider_domain&api_path), httpMethod = HttpPost, body = $body)
-  echo "📌 Your link now is avaiable at ", (provider_domain & parseJson($response.body){"hashid"}.getStr())
+  echo "✂️  Your link now is avaiable at ", (provider_domain & parseJson($response.body){"hashid"}.getStr())

@@ -13,24 +13,32 @@ Options:
   -v --version  Show version.
 """
 import regex
-import strutils, sequtils
 import docopt
 import providers/[cleanuriProvider, relinkProvider]
 
-let args = docopt(doc, version = "shortnim 0.1a")
+let args = docopt(doc, version = "shortnim 0.1")
 let supported_provider = ["relink","cleanuri"]
-var url_pattern = re"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$" # todo: improve this regexp
+var url_pattern = re"((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)" 
 
-if args["--provider"] and ($args["--provider"] in supported_provider) and match($args["<url>"], url_pattern):
+if args["<url>"] and not match($args["<url>"], url_pattern) :
+  echo "[ERR] Your url ", $args["<url>"], " does not appear correct for shortnim, make shure you have (http | https)"
+
+elif args["--provider"] and ($args["--provider"] notin supported_provider):
+  echo "[WARN] Provider ", $args["--provider"], " isn't supported yet"
+
+elif args["relink"]:
+  relink($args["<url>"])
+
+elif args["cleanuri"]:
+  cleanuri($args["<url>"])
+
+elif args["--provider"] and ($args["--provider"] in supported_provider):
   case $args["--provider"]:
     of "relink":
       relink($args["<url>"])
     of "cleanuri":
       cleanuri($args["<url>"])
-elif args["<url>"] and not match($args["<url>"], url_pattern) :
-  echo "Sorry, your url ", $args["<url>"], " does not appear correct for shortnim"
-elif args["--provider"] and ($args["--provider"] notin supported_provider):
-  echo "Sorry, provider ", $args["--provider"], " isn't supported yet"
+
 else:
   echo doc
 

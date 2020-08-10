@@ -8,4 +8,4 @@ proc cleanuri*(url: string) =
       "url": url
   }
   let response = client.request(url_provider, httpMethod = HttpPost, body = $body)
-  echo "📌 Your link now is avaiable at ", parseJson($response.body){"result_url"}.getStr()
+  echo "✂️  Your link now is avaiable at ", parseJson($response.body){"result_url"}.getStr()
