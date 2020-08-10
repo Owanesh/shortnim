@@ -1,9 +1,9 @@
 # Package
 
-version       = "0.1a"
+version       = "0.1"
 author        = "Owanesh"
 description   = "A nim wrapper to reduce your link"
-license       = "BSD-3-Clause"
+license       = "MIT License"
 srcDir        = "src"
 bin           = @["shortnim"]
 
